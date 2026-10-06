@@ -197,38 +197,18 @@
 
     #wc-tool .measure-title {
       display: block;
+      margin-bottom: 3px;
       font-size: 13px;
-      line-height: 1.4;
+      line-height: 1.35;
       font-weight: 700;
       color: var(--text);
     }
 
-    #wc-tool .measure.reset {
-      background: transparent;
-      border-style: dashed;
+    #wc-tool .measure-meta {
+      display: block;
+      font-size: 11.5px;
+      line-height: 1.45;
       color: var(--muted);
-      font-size: 12.5px;
-      font-weight: 600;
-      text-align: center;
-      padding: 9px 13px;
-    }
-
-    #wc-tool .measure.reset:hover {
-      background: #f5f0e7;
-      transform: none;
-      box-shadow: none;
-    }
-
-    #wc-tool .empty {
-      padding: 20px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.55;
-
-      background: var(--panel);
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow);
     }
 
     #wc-tool .results {
@@ -385,12 +365,6 @@
   </div>
 
   <section aria-live="polite">
-    <div id="empty" class="empty">
-      Выберите вариант из списка.
-      Здесь появятся плюсы
-      и скрытые риски решения
-    </div>
-
     <div id="results" class="hidden"></div>
   </section>
 
@@ -406,14 +380,16 @@
         {
           id: "cash",
           title: "Снизить неснижаемый остаток на счетах",
-          effect: "Больше денег можно направить на платежи, депозит или погашение долга.",
-          hidden: "Один незапланированный платеж может привести к кассовому разрыву, овердрафту или потере процентов по условиям размещения.",
-          watch: "минимальный остаток, точность платежного календаря, внутридневные платежи.",
+          source: "Свободные остатки денежных средств",
+          effect: "Больше денег можно направить на платежи, депозит или погашение долга",
+          hidden: "Один незапланированный платеж может привести к кассовому разрыву, овердрафту или потере процентов по условиям размещения",
+          watch: "минимальный остаток, точность платежного календаря, внутридневные платежи",
           severity: 3
         },
         {
           id: "inventory",
           title: "Сократить запасы",
+          source: "Товарные и производственные запасы",
           effect: "Деньги высвобождаются из склада, а срок оборота капитала сокращается",
           hidden: "Дефицит может вернуться потерянными продажами, простоями, срочными закупками и дорогой логистикой",
           watch: "service level, stock-out, оборачиваемость по SKU, срочные закупки",
@@ -422,6 +398,7 @@
         {
           id: "payables",
           title: "Увеличить отсрочку поставщикам",
+          source: "Кредиторская задолженность",
           effect: "Компания дольше удерживает деньги у себя и улучшает краткосрочный денежный поток",
           hidden: "Экономия на финансировании может раствориться в закупочной цене. Поставщик также может сократить лимит или потребовать предоплату",
           watch: "DPO, закупочная цена, скидки, бонусы и условия ключевых поставщиков",
@@ -430,6 +407,7 @@
         {
           id: "collect",
           title: "Ужесточить взыскание дебиторки",
+          source: "Дебиторская задолженность",
           effect: "Поступления ускоряются, DSO сокращается",
           hidden: "Жесткое взыскание может ускорить уход проблемного, но ценного клиента и создать будущий провал выручки",
           watch: "DSO по клиентам, маржинальность клиента, просрочка и риск оттока",
@@ -438,6 +416,7 @@
         {
           id: "discount",
           title: "Дать скидку за раннюю оплату",
+          source: "Дебиторская задолженность",
           effect: "Компания получает деньги раньше без конфликта с клиентом",
           hidden: "Стоимость такой ликвидности в пересчете на год может оказаться выше банковского кредита",
           watch: "эффективная годовая стоимость скидки, маржа и доступная ставка кредита",
@@ -446,6 +425,7 @@
         {
           id: "prepay",
           title: "Увеличить предоплату от клиентов",
+          source: "Авансы покупателей",
           effect: "Деньги поступают до исполнения заказа или оказания услуги",
           hidden: "Если потратить аванс на текущий дефицит, кассовый разрыв может возникнуть позже — когда придется исполнять оплаченный заказ",
           watch: "неисполненные обязательства, будущая себестоимость и покрытие авансов ликвидностью",
@@ -454,14 +434,16 @@
         {
           id: "capex",
           title: "Отказаться от кредитов для экономии на процентах",
-          effect: "Компания экономит на процентах и формально не увеличивает долговую нагрузку.",
-          hidden: "Кредит все равно может понадобиться позднее, но уже срочно и на менее выгодных условиях.",
-          watch: "понедельный ДДС, пики платежей по проекту, запас ликвидности и доступные лимиты.",
+          source: "Операционный денежный поток",
+          effect: "Компания экономит на процентах и формально не увеличивает долговую нагрузку",
+          hidden: "Кредит все равно может понадобиться позднее, но уже срочно и на менее выгодных условиях",
+          watch: "понедельный ДДС, пики платежей по проекту, запас ликвидности и доступные лимиты",
           severity: 3
         },
         {
           id: "group",
           title: "Перераспределить свободные деньги от одного участника группы другому",
+          source: "Ликвидность отдельного юрлица",
           effect: "Группа закрывает дефицит без внешнего финансирования",
           hidden: "Донору может самому понадобиться банковский кредит. Финансовую нагрузку просто перенесут между компаниями",
           watch: "standalone cash flow, банковские лимиты и стоимость внутригруппового финансирования",
@@ -473,7 +455,6 @@
       const dropdownLabel = root.querySelector("#dropdown-label");
       const list = root.querySelector("#measure-list");
       const results = root.querySelector("#results");
-      const empty = root.querySelector("#empty");
 
       let selectedId = null;
 
@@ -490,15 +471,7 @@
       }
 
       function renderList() {
-        let html = `
-          <button
-            type="button"
-            class="measure reset"
-            data-id=""
-          >
-            Сбросить выбор
-          </button>
-        `;
+        let html = "";
 
         measures.forEach(measure => {
           const active = measure.id === selectedId ? " is-active" : "";
@@ -511,6 +484,10 @@
             >
               <span class="measure-title">
                 ${escapeHtml(measure.title)}
+              </span>
+              <span class="measure-meta">
+                Источник эффекта:
+                ${escapeHtml(measure.source)}
               </span>
             </button>
           `;
@@ -535,7 +512,6 @@
       function renderResults() {
         if (!selectedId) {
           results.classList.add("hidden");
-          empty.classList.remove("hidden");
           results.innerHTML = "";
           return;
         }
@@ -544,7 +520,6 @@
 
         if (!measure) return;
 
-        empty.classList.add("hidden");
         results.classList.remove("hidden");
 
         results.innerHTML = `
@@ -582,10 +557,11 @@
 
         const id = button.dataset.id || "";
 
+        // Повторный клик по выбранной мере снимает выбор
         if (id && id === selectedId) {
           selectedId = null;
         } else {
-          selectedId = id || null;
+          selectedId = id;
         }
 
         dropdown.removeAttribute("open");
