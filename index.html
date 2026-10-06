@@ -75,30 +75,81 @@
       color: var(--muted);
     }
 
-    #wc-tool .grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-      gap: 14px;
+    /* Обёртка выпадающего списка */
+    #wc-tool .controls {
+      position: relative;
+      margin-bottom: 14px;
+      z-index: 30;
     }
 
-    #wc-tool .panel,
-    #wc-tool .summary,
-    #wc-tool .result-card,
-    #wc-tool .empty,
-    #wc-tool .footnote {
-      background: var(--panel);
+    #wc-tool .dropdown {
+      position: relative;
+    }
+
+    #wc-tool .dropdown summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      padding: 13px 16px;
+
+      background: var(--card);
       border: 1px solid var(--border-soft);
-      border-radius: var(--radius-xl);
+      border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
+
+      cursor: pointer;
+      list-style: none;
+
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+
+      transition:
+        border-color 0.18s ease,
+        background 0.18s ease;
     }
 
-    #wc-tool .panel {
-      padding: 13px;
+    #wc-tool .dropdown summary::-webkit-details-marker {
+      display: none;
     }
 
-    #wc-tool .measure-list {
+    #wc-tool .dropdown summary::after {
+      content: "▾";
+      font-size: 12px;
+      color: var(--muted);
+      transition: transform 0.18s ease;
+    }
+
+    #wc-tool .dropdown[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    #wc-tool .dropdown summary:hover {
+      border-color: #cdbd82;
+      background: #fffaf0;
+    }
+
+    #wc-tool .dropdown-list {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      z-index: 40;
+
       display: grid;
       gap: 8px;
+
+      max-height: 460px;
+      overflow-y: auto;
+
+      padding: 8px;
+
+      background: var(--panel);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 12px 30px rgba(70, 55, 24, 0.14);
     }
 
     #wc-tool .measure {
@@ -144,52 +195,26 @@
       color: var(--muted);
     }
 
-    #wc-tool .actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-
-    #wc-tool button {
-      min-height: 40px;
-      padding: 10px 15px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: #fffdf9;
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.18s ease, border-color 0.18s ease;
-    }
-
-    #wc-tool button:hover {
-      background: #f5f0e7;
-      border-color: #c9b779;
-    }
-
-    #wc-tool button.primary {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
-
-    #wc-tool button.primary:hover {
-      background: var(--accent-dark);
-      border-color: var(--accent-dark);
-    }
-
     #wc-tool .empty {
       padding: 20px;
       color: var(--muted);
       font-size: 13px;
       line-height: 1.55;
+
+      background: var(--panel);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
     }
 
     #wc-tool .summary {
       padding: 15px 16px;
       margin-bottom: 10px;
+
+      background: var(--panel);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
     }
 
     #wc-tool .summary-top {
@@ -233,6 +258,10 @@
     #wc-tool .result-card {
       padding: 16px;
       background: linear-gradient(180deg, #fffdf9 0%, #f8f4ed 100%);
+
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
     }
 
     #wc-tool .result-card h3 {
@@ -244,7 +273,6 @@
       max-width: 420px;
     }
 
-    /* ГЛАВНОЕ ИСПРАВЛЕНИЕ: автоматическое количество колонок и перенос слов */
     #wc-tool .triplet {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -256,7 +284,7 @@
       background: rgba(255, 255, 255, 0.76);
       border: 1px solid var(--border-soft);
       border-radius: var(--radius-md);
-      min-width: 0; /* Важно для работы переноса в grid */
+      min-width: 0;
     }
 
     #wc-tool .cell-label {
@@ -274,7 +302,6 @@
       font-size: 13px;
       line-height: 1.5;
       color: var(--text);
-      /* Свойства для правильного переноса длинных слов */
       overflow-wrap: break-word;
       word-break: break-word;
       hyphens: auto;
@@ -296,34 +323,11 @@
       color: var(--muted);
     }
 
-    #wc-tool .footnote {
-      margin-top: 14px;
-      padding: 15px 16px;
-      background: #f0ebe4;
-    }
-
-    #wc-tool .footnote-title {
-      margin: 0 0 5px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    #wc-tool .footnote-text {
-      margin: 0;
-      font-size: 13px;
-      line-height: 1.55;
-      color: var(--muted);
-    }
-
     #wc-tool .hidden {
       display: none;
     }
 
     @media (max-width: 720px) {
-      #wc-tool .grid {
-        grid-template-columns: 1fr;
-      }
-
       #wc-tool h2 {
         font-size: 22px;
         max-width: 100%;
@@ -349,7 +353,7 @@
       }
     }
 
-    /* СТИЛИ ДЛЯ ПЕЧАТИ И СОХРАНЕНИЯ В PDF */
+    /* СТИЛИ ДЛЯ ПЕЧАТИ */
     @media print {
       #wc-tool {
         max-width: 100% !important;
@@ -361,8 +365,7 @@
 
       #wc-tool .hero,
       #wc-tool .summary,
-      #wc-tool .result-card,
-      #wc-tool .footnote {
+      #wc-tool .result-card {
         box-shadow: none !important;
         border: 1px solid #ccc !important;
         border-radius: 8px !important;
@@ -376,14 +379,8 @@
         margin-bottom: 15px !important;
       }
 
-      #wc-tool .panel,
-      #wc-tool .actions,
-      #wc-tool .measure input {
+      #wc-tool .controls {
         display: none !important;
-      }
-
-      #wc-tool .grid {
-        display: block !important;
       }
 
       #wc-tool .triplet {
@@ -422,53 +419,24 @@
     </p>
   </section>
 
-  <div class="grid">
+  <div class="controls">
+    <details class="dropdown" id="measure-dropdown">
+      <summary>
+        <span id="dropdown-label">Выбрать меры</span>
+      </summary>
 
-    <section class="panel">
-      <div id="measure-list" class="measure-list"></div>
-
-      <div class="actions">
-        <button type="button" id="select-all" class="primary">
-          Выбрать все
-        </button>
-
-        <button type="button" id="reset">
-          Сбросить
-        </button>
-
-        <button type="button" id="print-btn">
-          Распечатать
-        </button>
-
-        <button type="button" id="pdf-btn">
-          Сохранить в PDF
-        </button>
-      </div>
-    </section>
-
-    <section aria-live="polite">
-      <div id="empty" class="empty">
-        Отметьте хотя бы одну меру.
-        Здесь появятся эффект для ликвидности,
-        цена решения и скрытые последствия
-      </div>
-
-      <div id="results" class="hidden"></div>
-    </section>
-
+      <div id="measure-list" class="dropdown-list"></div>
+    </details>
   </div>
 
-  <section class="footnote">
-    <p class="footnote-title">Как читать результат</p>
+  <section aria-live="polite">
+    <div id="empty" class="empty">
+      Отметьте хотя бы одну меру.
+      Здесь появятся эффект для ликвидности,
+      цена решения и скрытые последствия
+    </div>
 
-    <p class="footnote-text">
-      Инструмент помогает быстро проверить логику решения,
-      но не заменяет расчет. Перед внедрением меры стоит
-      пересчитать эффект в рублях, проверить платежный календарь
-      как минимум на один полный операционный цикл и оценить,
-      не переносит ли компания дефицит в другую статью
-      или следующий период
-    </p>
+    <div id="results" class="hidden"></div>
   </section>
 
   <script>
@@ -572,6 +540,8 @@
         }
       ];
 
+      const dropdown = root.querySelector("#measure-dropdown");
+      const dropdownLabel = root.querySelector("#dropdown-label");
       const list = root.querySelector("#measure-list");
       const results = root.querySelector("#results");
       const empty = root.querySelector("#empty");
@@ -606,6 +576,16 @@
         list.appendChild(label);
       });
 
+      function updateLabel() {
+        const count = list.querySelectorAll("input:checked").length;
+
+        if (count === 0) {
+          dropdownLabel.textContent = "Выбрать меры";
+        } else {
+          dropdownLabel.textContent = "Выбрано мер: " + count;
+        }
+      }
+
       function render() {
         const selectedIds = [
           ...list.querySelectorAll("input:checked")
@@ -614,6 +594,8 @@
         const selected = measures.filter(
           measure => selectedIds.includes(measure.id)
         );
+
+        updateLabel();
 
         if (!selected.length) {
           results.classList.add("hidden");
@@ -688,38 +670,16 @@
 
       list.addEventListener("change", render);
 
-      root
-        .querySelector("#select-all")
-        .addEventListener("click", () => {
-          list.querySelectorAll("input").forEach(input => {
-            input.checked = true;
-          });
-          render();
-        });
-
-      root
-        .querySelector("#reset")
-        .addEventListener("click", () => {
-          list.querySelectorAll("input").forEach(input => {
-            input.checked = false;
-          });
-          render();
-        });
-
-      // Кнопка "Распечатать"
-      root
-        .querySelector("#print-btn")
-        .addEventListener("click", () => {
-          window.print();
-        });
-
-      // Кнопка "Сохранить в PDF"
-      root
-        .querySelector("#pdf-btn")
-        .addEventListener("click", () => {
-          window.print();
-          // В открывшемся окне печати выберите «Сохранить как PDF»
-        });
+      // Закрытие выпадающего списка при клике вне его
+      document.addEventListener("click", event => {
+        if (
+          dropdown &&
+          dropdown.open &&
+          !dropdown.contains(event.target)
+        ) {
+          dropdown.removeAttribute("open");
+        }
+      });
     })();
   </script>
 </div>
