@@ -1,0 +1,839 @@
+<div id="wc-tool" class="wc-wrap">
+  <style>
+    #wc-tool {
+      --bg: #f4f1ec;
+      --panel: #fbfaf7;
+      --card: #fffdf9;
+      --border: #ddd6cc;
+      --border-soft: #e8e2da;
+      --text: #111111;
+      --muted: #6f675f;
+
+      --accent: #b9931f;
+      --accent-dark: #927416;
+      --accent-soft: #f3e8bd;
+
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+
+      --shadow: 0 8px 24px rgba(70, 55, 24, 0.07);
+
+      background: var(--bg);
+      color: var(--text);
+      border-radius: 26px;
+      padding: 18px;
+
+      max-width: 757px;
+      width: 100%;
+      margin: 0 auto;
+
+      font-family: Arial, sans-serif;
+    }
+
+    #wc-tool * {
+      box-sizing: border-box;
+    }
+
+    #wc-tool .hero {
+      background: var(--panel);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+
+    #wc-tool .eyebrow {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 13px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+
+    #wc-tool h2 {
+      margin: 0 0 8px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 27px;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+
+      max-width: 520px;
+    }
+
+    #wc-tool .sub {
+      margin: 0;
+      max-width: 640px;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    #wc-tool .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: 14px;
+    }
+
+    #wc-tool .panel,
+    #wc-tool .summary,
+    #wc-tool .result-card,
+    #wc-tool .empty,
+    #wc-tool .footnote {
+      background: var(--panel);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    #wc-tool .panel {
+      padding: 13px;
+    }
+
+    #wc-tool .measure-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    #wc-tool .measure {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+
+      padding: 12px 13px;
+
+      background: var(--card);
+
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+
+      cursor: pointer;
+
+      transition:
+        border-color 0.18s ease,
+        background 0.18s ease,
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+    }
+
+    #wc-tool .measure:hover {
+      border-color: #cdbd82;
+      background: #fffaf0;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(72, 56, 24, 0.08);
+    }
+
+    #wc-tool .measure input {
+      margin-top: 2px;
+      width: 17px;
+      height: 17px;
+      flex: 0 0 auto;
+      accent-color: var(--accent);
+    }
+
+    #wc-tool .measure-title {
+      display: block;
+      margin-bottom: 3px;
+
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    #wc-tool .measure-meta {
+      display: block;
+
+      font-size: 11.5px;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    #wc-tool .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    #wc-tool button {
+      min-height: 40px;
+
+      padding: 10px 15px;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      background: #fffdf9;
+      color: var(--text);
+
+      font-size: 13px;
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition:
+        background 0.18s ease,
+        border-color 0.18s ease;
+    }
+
+    #wc-tool button:hover {
+      background: #f5f0e7;
+      border-color: #c9b779;
+    }
+
+    #wc-tool button.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    #wc-tool button.primary:hover {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
+    }
+
+    #wc-tool .empty {
+      padding: 20px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    #wc-tool .summary {
+      padding: 15px 16px;
+      margin-bottom: 10px;
+    }
+
+    #wc-tool .summary-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+
+      margin-bottom: 7px;
+    }
+
+    #wc-tool .summary-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    #wc-tool .badge {
+      display: inline-flex;
+      align-items: center;
+
+      padding: 7px 11px;
+
+      border-radius: 999px;
+      border: 1px solid #dfcd8c;
+
+      background: var(--accent-soft);
+      color: #5b4710;
+
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+
+    #wc-tool .summary-text {
+      margin: 0;
+
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    #wc-tool .results {
+      display: grid;
+      gap: 10px;
+    }
+
+    #wc-tool .result-card {
+      padding: 16px;
+
+      background:
+        linear-gradient(
+          180deg,
+          #fffdf9 0%,
+          #f8f4ed 100%
+        );
+    }
+
+    #wc-tool .result-card h3 {
+      margin: 0 0 12px;
+
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+
+      max-width: 420px;
+    }
+
+    #wc-tool .triplet {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    #wc-tool .cell {
+      padding: 11px;
+
+      background: rgba(255, 255, 255, 0.76);
+
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+    }
+
+    #wc-tool .cell-label {
+      margin: 0 0 5px;
+
+      font-size: 10.5px;
+      line-height: 1.3;
+      font-weight: 800;
+
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+
+      color: var(--accent-dark);
+    }
+
+    #wc-tool .cell-text {
+      margin: 0;
+
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+
+    #wc-tool .watch {
+      margin-top: 11px;
+      padding-top: 11px;
+
+      border-top: 1px solid var(--border-soft);
+
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    #wc-tool .watch b {
+      color: var(--text);
+    }
+
+    #wc-tool .watch span {
+      color: var(--muted);
+    }
+
+    #wc-tool .footnote {
+      margin-top: 14px;
+      padding: 15px 16px;
+
+      background: #f0ebe4;
+    }
+
+    #wc-tool .footnote-title {
+      margin: 0 0 5px;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    #wc-tool .footnote-text {
+      margin: 0;
+
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    #wc-tool .hidden {
+      display: none;
+    }
+
+    @media (max-width: 720px) {
+      #wc-tool .grid {
+        grid-template-columns: 1fr;
+      }
+
+      #wc-tool h2 {
+        font-size: 22px;
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 560px) {
+      #wc-tool {
+        padding: 11px;
+        border-radius: 20px;
+      }
+
+      #wc-tool .hero {
+        padding: 16px;
+      }
+
+      #wc-tool h2 {
+        font-size: 20px;
+      }
+
+      #wc-tool .triplet {
+        grid-template-columns: 1fr;
+      }
+
+      #wc-tool .result-card h3 {
+        font-size: 16px;
+      }
+    }
+  </style>
+
+  <section class="hero">
+    <div class="eyebrow">Управление оборотным капиталом</div>
+
+    <h2>
+      Как высвободить деньги из оборотки
+      и не получить новый разрыв
+    </h2>
+
+    <p class="sub">
+      Выберите меры, которые рассматривает компания.
+      Инструмент покажет, где появится ликвидность,
+      чем за нее придется заплатить и какие последствия
+       не всегда видны в первоначальном расчете
+    </p>
+  </section>
+
+  <div class="grid">
+
+    <section class="panel">
+      <div id="measure-list" class="measure-list"></div>
+
+      <div class="actions">
+        <button
+          type="button"
+          id="select-all"
+          class="primary"
+        >
+          Выбрать все
+        </button>
+
+        <button
+          type="button"
+          id="reset"
+        >
+          Сбросить
+        </button>
+      </div>
+    </section>
+
+    <section aria-live="polite">
+
+      <div id="empty" class="empty">
+        Отметьте хотя бы одну меру.
+        Здесь появятся эффект для ликвидности,
+        цена решения и скрытые последствия.
+      </div>
+
+      <div
+        id="results"
+        class="hidden"
+      ></div>
+
+    </section>
+
+  </div>
+
+  <section class="footnote">
+    <p class="footnote-title">
+      Как читать результат
+    </p>
+
+    <p class="footnote-text">
+      Инструмент помогает быстро проверить логику решения,
+      но не заменяет расчет. Перед внедрением меры стоит
+      пересчитать эффект в рублях, проверить платежный календарь
+      как минимум на один полный операционный цикл и оценить,
+      не переносит ли компания дефицит в другую статью
+      или следующий период
+    </p>
+  </section>
+
+  <script>
+    (() => {
+      const root = document.getElementById("wc-tool");
+
+      if (!root || root.dataset.ready === "1") return;
+
+      root.dataset.ready = "1";
+
+      const measures = [
+        {
+          id: "cash",
+          title: "Снизить неснижаемый остаток на счетах",
+          source: "Свободные остатки денежных средств",
+
+          effect:
+            "Больше денег можно направить на платежи, депозит или погашение долга.",
+
+          cost:
+            "Снижается запас ликвидности.",
+
+          hidden:
+            "Один незапланированный платеж может привести к кассовому разрыву, овердрафту или потере процентов по условиям размещения.",
+
+          watch:
+            "Минимальный остаток, точность платежного календаря, внутридневные платежи.",
+
+          severity: 3
+        },
+
+        {
+          id: "inventory",
+          title: "Сократить запасы",
+          source: "Товарные и производственные запасы",
+
+          effect:
+            "Деньги высвобождаются из склада, а срок оборота капитала сокращается.",
+
+          cost:
+            "Снижается страховой запас и устойчивость к колебаниям спроса и поставок.",
+
+          hidden:
+            "Дефицит может вернуться потерянными продажами, простоями, срочными закупками и дорогой логистикой.",
+
+          watch:
+            "Service level, stock-out, оборачиваемость по SKU, срочные закупки.",
+
+          severity: 3
+        },
+
+        {
+          id: "payables",
+          title: "Увеличить отсрочку поставщикам",
+          source: "Кредиторская задолженность",
+
+          effect:
+            "Компания дольше удерживает деньги у себя и улучшает краткосрочный денежный поток.",
+
+          cost:
+            "Поставщик может включить стоимость отсрочки в цену, снизить скидку или бонус.",
+
+          hidden:
+            "Экономия на финансировании может раствориться в закупочной цене. Поставщик также может сократить лимит или потребовать предоплату.",
+
+          watch:
+            "DPO, закупочная цена, скидки, бонусы и условия ключевых поставщиков.",
+
+          severity: 2
+        },
+
+        {
+          id: "collect",
+          title: "Ужесточить взыскание дебиторки",
+          source: "Дебиторская задолженность",
+
+          effect:
+            "Поступления ускоряются, DSO сокращается.",
+
+          cost:
+            "Клиент получает меньше финансовой гибкости.",
+
+          hidden:
+            "Жесткое взыскание может ускорить уход проблемного, но ценного клиента и создать будущий провал выручки.",
+
+          watch:
+            "DSO по клиентам, маржинальность клиента, просрочка и риск оттока.",
+
+          severity: 3
+        },
+
+        {
+          id: "discount",
+          title: "Дать скидку за раннюю оплату",
+          source: "Дебиторская задолженность",
+
+          effect:
+            "Компания получает деньги раньше без конфликта с клиентом.",
+
+          cost:
+            "Часть маржи компания отдает за ускорение платежа.",
+
+          hidden:
+            "Стоимость такой ликвидности в пересчете на год может оказаться выше банковского кредита.",
+
+          watch:
+            "Эффективная годовая стоимость скидки, маржа и доступная ставка кредита.",
+
+          severity: 2
+        },
+
+        {
+          id: "factoring",
+          title: "Продать дебиторку фактору",
+          source: "Дебиторская задолженность",
+
+          effect:
+            "Деньги поступают до срока оплаты покупателем.",
+
+          cost:
+            "Компания платит комиссию и стоимость факторингового финансирования.",
+
+          hidden:
+            "Временный инструмент может стать постоянным источником ликвидности, без которого бизнес уже не выдерживает текущий оборот.",
+
+          watch:
+            "Доля факторинга в выручке, стоимость финансирования и зависимость от лимитов.",
+
+          severity: 2
+        },
+
+        {
+          id: "prepay",
+          title: "Увеличить предоплату от клиентов",
+          source: "Авансы покупателей",
+
+          effect:
+            "Деньги поступают до исполнения заказа или оказания услуги.",
+
+          cost:
+            "Компания принимает обязательство выполнить будущие поставки за уже полученные деньги.",
+
+          hidden:
+            "Если потратить аванс на текущий дефицит, кассовый разрыв может возникнуть позже — когда придется исполнять оплаченный заказ.",
+
+          watch:
+            "Неисполненные обязательства, будущая себестоимость и покрытие авансов ликвидностью.",
+
+          severity: 3
+        },
+
+        {
+          id: "capex",
+          title: "Направить текущий денежный поток на CAPEX вместо кредита",
+          source: "Операционный денежный поток",
+
+          effect:
+            "Компания экономит на процентах и формально не увеличивает долговую нагрузку.",
+
+          cost:
+            "Из оборота изымаются деньги, нужные для закупок, зарплаты и текущих платежей.",
+
+          hidden:
+            "Кредит все равно может понадобиться позднее, но уже срочно и на менее выгодных условиях.",
+
+          watch:
+            "Понедельный ДДС, пики платежей по проекту, запас ликвидности и доступные лимиты.",
+
+          severity: 3
+        },
+
+        {
+          id: "group",
+          title: "Передать свободные деньги другой компании группы",
+          source: "Ликвидность отдельного юрлица",
+
+          effect:
+            "Группа закрывает дефицит без внешнего финансирования.",
+
+          cost:
+            "Компания-донор теряет собственный запас ликвидности.",
+
+          hidden:
+            "Донору может самому понадобиться банковский кредит. Финансовую нагрузку просто перенесут между компаниями.",
+
+          watch:
+            "Standalone cash flow, банковские лимиты и стоимость внутригруппового финансирования.",
+
+          severity: 3
+        }
+      ];
+
+      const list = root.querySelector("#measure-list");
+      const results = root.querySelector("#results");
+      const empty = root.querySelector("#empty");
+
+      function escapeHtml(value) {
+        return String(value).replace(
+          /[&<>"]/g,
+          character => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;"
+          })[character]
+        );
+      }
+
+      measures.forEach(measure => {
+        const label = document.createElement("label");
+
+        label.className = "measure";
+
+        label.innerHTML = `
+          <input
+            type="checkbox"
+            value="${measure.id}"
+          >
+
+          <span>
+            <span class="measure-title">
+              ${escapeHtml(measure.title)}
+            </span>
+
+            <span class="measure-meta">
+              Источник эффекта:
+              ${escapeHtml(measure.source)}
+            </span>
+          </span>
+        `;
+
+        list.appendChild(label);
+      });
+
+      function render() {
+        const selectedIds = [
+          ...list.querySelectorAll("input:checked")
+        ].map(input => input.value);
+
+        const selected = measures.filter(
+          measure => selectedIds.includes(measure.id)
+        );
+
+        if (!selected.length) {
+          results.classList.add("hidden");
+          empty.classList.remove("hidden");
+          results.innerHTML = "";
+          return;
+        }
+
+        empty.classList.add("hidden");
+        results.classList.remove("hidden");
+
+        const highRiskCount = selected.filter(
+          measure => measure.severity === 3
+        ).length;
+
+        const summaryText =
+          highRiskCount >= 2
+            ? "Вы выбрали несколько мер с высоким риском переноса дефицита. Проверьте их совместный эффект: одна мера может усиливать последствия другой."
+            : "Мера может дать деньги быстро, но стоит проверить, не уходит ли проблема в другую статью, к контрагенту или в следующий период.";
+
+        let html = `
+          <section class="summary">
+            <div class="summary-top">
+
+              <div class="summary-title">
+                Выбрано мер: ${selected.length}
+              </div>
+
+              <div class="badge">
+                Высоких скрытых рисков:
+                ${highRiskCount}
+              </div>
+
+            </div>
+
+            <p class="summary-text">
+              ${escapeHtml(summaryText)}
+            </p>
+          </section>
+
+          <div class="results">
+        `;
+
+        selected.forEach(measure => {
+          html += `
+            <article class="result-card">
+
+              <h3>
+                ${escapeHtml(measure.title)}
+              </h3>
+
+              <div class="triplet">
+
+                <div class="cell">
+                  <p class="cell-label">
+                    Что получим
+                  </p>
+
+                  <p class="cell-text">
+                    ${escapeHtml(measure.effect)}
+                  </p>
+                </div>
+
+                <div class="cell">
+                  <p class="cell-label">
+                    Чем платим
+                  </p>
+
+                  <p class="cell-text">
+                    ${escapeHtml(measure.cost)}
+                  </p>
+                </div>
+
+                <div class="cell">
+                  <p class="cell-label">
+                    Что легко не заметить
+                  </p>
+
+                  <p class="cell-text">
+                    ${escapeHtml(measure.hidden)}
+                  </p>
+                </div>
+
+              </div>
+
+              <div class="watch">
+                <b>Что проверить:</b>
+                <span>
+                  ${escapeHtml(measure.watch)}
+                </span>
+              </div>
+
+            </article>
+          `;
+        });
+
+        html += `
+          </div>
+        `;
+
+        results.innerHTML = html;
+      }
+
+      list.addEventListener("change", render);
+
+      root
+        .querySelector("#select-all")
+        .addEventListener("click", () => {
+          list
+            .querySelectorAll("input")
+            .forEach(input => {
+              input.checked = true;
+            });
+
+          render();
+        });
+
+      root
+        .querySelector("#reset")
+        .addEventListener("click", () => {
+          list
+            .querySelectorAll("input")
+            .forEach(input => {
+              input.checked = false;
+            });
+
+          render();
+        });
+    })();
+  </script>
+</div>
