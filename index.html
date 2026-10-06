@@ -348,6 +348,63 @@
         font-size: 16px;
       }
     }
+
+    /* СТИЛИ ДЛЯ ПЕЧАТИ И СОХРАНЕНИЯ В PDF */
+    @media print {
+      #wc-tool {
+        max-width: 100% !important;
+        padding: 0 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+      }
+
+      #wc-tool .hero,
+      #wc-tool .summary,
+      #wc-tool .result-card,
+      #wc-tool .footnote {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+        border-radius: 8px !important;
+        background: #fff !important;
+        page-break-inside: avoid;
+      }
+
+      #wc-tool .hero {
+        border: none !important;
+        padding: 0 0 15px 0 !important;
+        margin-bottom: 15px !important;
+      }
+
+      #wc-tool .panel,
+      #wc-tool .actions,
+      #wc-tool .measure input {
+        display: none !important;
+      }
+
+      #wc-tool .grid {
+        display: block !important;
+      }
+
+      #wc-tool .triplet {
+        grid-template-columns: repeat(3, 1fr) !important;
+      }
+
+      #wc-tool .cell {
+        background: #fff !important;
+        border: 1px solid #ddd !important;
+      }
+
+      #wc-tool .badge {
+        border: 1px solid #999 !important;
+        background: #f5f5f5 !important;
+        color: #000 !important;
+      }
+
+      #wc-tool .results {
+        gap: 15px;
+      }
+    }
   </style>
 
   <section class="hero">
@@ -378,6 +435,14 @@
 
         <button type="button" id="reset">
           Сбросить
+        </button>
+
+        <button type="button" id="print-btn">
+          Распечатать
+        </button>
+
+        <button type="button" id="pdf-btn">
+          Сохранить в PDF
         </button>
       </div>
     </section>
@@ -640,6 +705,21 @@
             input.checked = false;
           });
           render();
+        });
+
+      // Кнопка "Распечатать"
+      root
+        .querySelector("#print-btn")
+        .addEventListener("click", () => {
+          window.print();
+        });
+
+      // Кнопка "Сохранить в PDF"
+      root
+        .querySelector("#pdf-btn")
+        .addEventListener("click", () => {
+          window.print();
+          // В открывшемся окне печати выберите «Сохранить как PDF»
         });
     })();
   </script>
