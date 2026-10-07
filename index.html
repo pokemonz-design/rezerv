@@ -60,8 +60,8 @@
     #wc-tool h2 {
       margin: 0 0 8px;
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 27px;
-      line-height: 1.08;
+      font-size: 17.5px;
+      line-height: 1.15;
       letter-spacing: -0.02em;
       font-weight: 700;
       max-width: 520px;
@@ -287,7 +287,7 @@
 
     @media (max-width: 720px) {
       #wc-tool h2 {
-        font-size: 22px;
+        font-size: 14.3px;
         max-width: 100%;
       }
     }
@@ -303,7 +303,7 @@
       }
 
       #wc-tool h2 {
-        font-size: 20px;
+        font-size: 13px;
       }
     }
 
@@ -557,7 +557,6 @@
 
         const id = button.dataset.id || "";
 
-        // Повторный клик по выбранной мере снимает выбор
         if (id && id === selectedId) {
           selectedId = null;
         } else {
